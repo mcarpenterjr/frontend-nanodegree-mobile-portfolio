@@ -17,11 +17,18 @@ var gulp = require('gulp'),
     reload = browserSync.reload,
     del = require('del');
 
+gulp.task('configs', function() {
+   return gulp.src('app/.htaccess')
+            .pipe(gulp.dest('dist/'))
+            .pipe(notify({ message: 'Configurations can has been Copied'}));
+            ;
+});
+
 gulp.task('suffix', function() {
    return gulp.src(['app/**/*.html', '!node_modules/**/*.html'])
             .pipe(htmlReplace({
-                'css': 'assets/css/style.min.css',
-                'js': 'assets/js/perfmatters.min.js'
+                'css': 'assets/styles/style.min.css',
+                'js': 'assets/js/main.min.js'
             }))
             .pipe(gulp.dest('dist/'))
             .pipe(notify({ message: 'Suffixes can has been Suffixed'}));
@@ -35,8 +42,8 @@ gulp.task('html', function() {
    return gulp.src(['dist/**/*.html', '!node_modules/**/*.html'])
             .pipe(minifyHTML(opts))
             .pipe(htmlReplace({
-                'css': 'assets/css/style.min.css',
-                'js': 'assets/js/perfmatters.min.js'
+                'css': 'assets/syles/style.min.css',
+                'js': 'assets/js/main.min.js'
             }))
             .pipe(gulp.dest('dist/'))
             .pipe(notify({ message: 'HTMLS can has been Minified' }));
@@ -99,7 +106,7 @@ gulp.task('default', ['clean'], function() {
 
 gulp.task('distro', ['clean'], function() {
    runSequence(
-        ['suffix'],
+        ['suffix', 'configs'],
         ['styles', 'scripts'],
         'images',
         ['html']
@@ -116,7 +123,7 @@ gulp.task('serve', ['default'], function () {
     //       will present a certificate warning in the browser.
     // https: true,
     server: {
-      baseDir: ['.tmp', 'dist/']
+      baseDir: ['.tmp', 'app']
     }
   });
 });
@@ -131,6 +138,6 @@ gulp.task('serve:dist', ['distro'], function () {
     // Note: this uses an unsigned certificate which on first access
     //       will present a certificate warning in the browser.
     // https: true,
-    server: 'dist/'
+    server: 'dist'
   });
 });
