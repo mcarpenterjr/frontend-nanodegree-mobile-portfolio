@@ -9,6 +9,7 @@ var gulp = require('gulp'),
     jshint = require('gulp-jshint'),
     uglify = require('gulp-uglify'),
     imagemin = require('gulp-imagemin'),
+    imgResize = require('gulp-image-resize'),
     rename = require('gulp-rename'),
     webFonts = require('gulp-google-webfonts'),
     notify = require('gulp-notify'),
@@ -61,10 +62,15 @@ gulp.task('htmlMain', function() {
                    tpl: '<link rel="stylesheet" href="%s">'
                 },
                 'cssMainAsync': {
-                   src: ['css/print.min.css', 'css/fonts.min.css']},
+                   src: ['css/print.min.css', 'css/fonts.min.css']
+                },
                 'jsMain': {
                     src: 'js/main.min.js',
                     tpl: '<script async src="%s"></script>'
+                },
+                'imagethumbs': {
+                    src: 'views/images/pizzeria-thumb.jpg',
+                    tpl: '<img style="width: 100px;" src="%s">'
                 }
             }))
             .pipe(minifyHTML(opts))
@@ -194,21 +200,29 @@ gulp.task('imagesMain', function() {
 
 gulp.task('imagesViews', function() {
    return gulp.src(paths.imgViews, paths.restricted)
-            .pipe(imagemin({ optimizationLevel: 7, progressive: true, interlaced: true }))
+            .pipe(imgResize({quality: .75}))
             .pipe(gulp.dest('dist/views/images/'))
-            .pipe(notify({ message: 'That image LOOKS AMAZING!' }));
+            .pipe(notify({ message: 'View Images have been Optimized' }));
+});
+
+gulp.task('imagesViewsThumbs', function() {
+   return gulp.src(paths.imgViews, paths.restricted)
+            .pipe(imgResize({width: 250, quality: .75}))
+            .pipe(rename(function (path) {path.basename += '-thumbnail';}))
+            .pipe(gulp.dest('dist/views/images/'))
+            .pipe(notify({ message: 'View Images have been Thumbnailed' }));
 });
 
 gulp.task('images', function() {
    runSequence(
-        ['imagesMain', 'imagesViews']
+        ['imagesMain', 'imagesViews', 'imagesViewsThumbs']
     ); 
 });
 
 gulp.task('clean', function(cb) {
-   del(['dist/assets/css', 'dist/assets/js', 'dist/assets/img',
-       'dist/views/assets/css', 'dist/views/assets/js', 
-       'dist/views/assets/img'], cb);
+   del(['dist/css', 'dist/js', 'dist/img',
+       'dist/views/css', 'dist/views/js', 
+       'dist/views/imgages', 'dist/'], cb);
 });
 
 gulp.task('watch', function() {
