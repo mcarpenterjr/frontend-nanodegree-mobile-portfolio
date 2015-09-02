@@ -156,7 +156,8 @@ gulp.task('styles', function () {
     runSequence(
             ['wofFiles'],
             ['fonts'],
-            ['stylesMain', 'stylesViews']
+            ['stylesViews'],
+            ['stylesMain']
     );
 });
 
@@ -208,7 +209,8 @@ gulp.task('imagesViews', function() {
 gulp.task('imagesViewsThumbs', function() {
    return gulp.src(paths.imgViews, paths.restricted)
             .pipe(imgResize({width: 250, quality: .75}))
-            .pipe(rename(function (path) {path.basename += '-thumbnail';}))
+            .pipe(imagemin({ optimizationLevel: 7, progressive: true, interlaced: true }))
+            .pipe(rename(function (path) {path.basename += '-thumb';}))
             .pipe(gulp.dest('dist/views/images/'))
             .pipe(notify({ message: 'View Images have been Thumbnailed' }));
 });
@@ -251,7 +253,7 @@ gulp.task('default', ['clean'], function() {
 // This builds the distibution copy of the web application, and then serves it
 //  to a basic server, from the specified location.
 
-gulp.task('serve', ['default', 'watch'], function () {
+gulp.task('dist', ['default', 'watch'], function () {
   browserSync({
       port:5000,
     notify: false,
@@ -264,4 +266,77 @@ gulp.task('serve', ['default', 'watch'], function () {
       baseDir: ['.tmp', 'dist']
     }
   });
+});
+
+    //
+
+gulp.task('serve-build', function () {
+  browserSync({
+      port:5000,
+    notify: false,
+    logPrefix: 'PSK', 
+    // Run as an https by uncommenting 'https: true'
+    // Note: this uses an unsigned certificate which on first access
+    //       will present a certificate warning in the browser.
+    // https: true,
+    server: {
+      baseDir: ['app']
+    }
+  });
+  
+  gulp.watch('app/**/*').on('change', reload);
+});
+
+gulp.task('serve-build', function () {
+  browserSync({
+      port:5000,
+    notify: false,
+    logPrefix: 'PSK', 
+    // Run as an https by uncommenting 'https: true'
+    // Note: this uses an unsigned certificate which on first access
+    //       will present a certificate warning in the browser.
+    // https: true,
+    server: {
+      baseDir: ['app']
+    }
+  });
+  
+  gulp.watch('app/**/*').on('change', reload);
+});
+
+    //
+
+gulp.task('serve-build', function () {
+  browserSync({
+      port:5000,
+    notify: false,
+    logPrefix: 'PSK', 
+    // Run as an https by uncommenting 'https: true'
+    // Note: this uses an unsigned certificate which on first access
+    //       will present a certificate warning in the browser.
+    // https: true,
+    server: {
+      baseDir: ['app']
+    }
+  });
+  
+  gulp.watch('app/**/*').on('change', reload);
+});
+
+    //
+
+gulp.task('original', function () {
+  browserSync({
+      port:5000,
+    notify: false,
+    logPrefix: 'PSK', 
+    // Run as an https by uncommenting 'https: true'
+    // Note: this uses an unsigned certificate which on first access
+    //       will present a certificate warning in the browser.
+    // https: true,
+    server: {
+      baseDir: ['orig']
+    }
+  });
+ 
 });
