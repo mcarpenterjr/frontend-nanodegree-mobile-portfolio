@@ -19,8 +19,13 @@ var gulp = require('gulp'),
     reload = browserSync.reload,
     del = require('del');
     
+    //
+    //  Set important paths here, allowing for reusability and rapid task
+    //  creation.  
+    // 
+    
 var paths = {
-    restricted: ['!node_modules/**/*.html'],
+    restricted: ['!node_modules/**/*'],  //IMPORTANT: Use to block tasks from parsing this massive directory!
     serverConfigs: ['app/serverConfigs/*'],
     fonts: ['app/serverConfigs/fonts.list'],
     content: ['app/*.html'],
@@ -47,10 +52,12 @@ gulp.task('configs', function() {
             .pipe(notify({ message: 'Server Configurations are set!'}));
 });
 
-    //  The html task minifies the html documents, it is currently set
+    //
+    //  The html tasks group minifies the html documents, it is currently set
     //  to strip comments and white space creating the smallest document
     //  possible.
-
+    //
+    
 gulp.task('htmlMain', function() {
     var opts = {
       conditionals: true
@@ -99,16 +106,21 @@ gulp.task('htmlViews', function() {
             .pipe(gulp.dest('dist/views/'))
             .pipe(notify({ message: 'HTMLSViews can has been Minified' }));
 });
-
+    //
+    //  Condensed html task, runs all html tasks.
+    //
+    
 gulp.task('content', function () {
     runSequence(
         ['htmlMain', 'htmlViews']
     );
 });
 
+    //
     //  The stylesMain task minifies and combines all css files in the
     //  app directory.
-
+    //
+    
 gulp.task('stylesMain', function() {
     return gulp.src(paths.styles, paths.restricted)
             .pipe(autoprefixer('last 2 version'))
@@ -118,10 +130,12 @@ gulp.task('stylesMain', function() {
             .pipe(notify({ message: 'Styles have been Minified' }));
 });
 
+    //
     //  The stylesView task minifies and combines all css files in the
     //  view directory into one file, this preserves existing style in the
     //  main css file.
-
+    //
+    
 gulp.task('stylesViews', function() {
     return gulp.src(paths.stylesViews, paths.restricted)
             .pipe(autoprefixer('last 2 version'))
@@ -132,9 +146,11 @@ gulp.task('stylesViews', function() {
             .pipe(notify({ message: 'View Styles have been Minified' }));
 });
 
+    //
     // The fonts task generates a style sheet for the google fonts API
     // This places a fonts.css file in the app/css directory.
     // THIS MUST BE RUN BEFORE ANY OF THE STYLES____ TASKS!
+    //
     
 gulp.task('fonts', function() {
     return gulp.src(paths.fonts, paths.restricted)
@@ -143,15 +159,21 @@ gulp.task('fonts', function() {
             .pipe(notify({ message: 'WE GOT FONTS YO!'}));
 });
 
+    //
     //  The wofFiles task copies .woff files containing font information to the
     //  CSS directory where they can be referenced by fonts.css.
-
+    //
+    
 gulp.task('wofFiles', function() {
     return gulp.src(paths.cssWofFonts, paths.restricted)
             .pipe(gulp.dest('dist/css/'))
             .pipe(notify({ message: 'WOFF FILES ARE IN!'}));
 });
-
+    //
+    //  The stylles task sequentially runs all the necessary tasks for creating all of the
+    //  style elements.
+    //
+    
 gulp.task('styles', function () {
     runSequence(
             ['wofFiles'],
@@ -161,9 +183,11 @@ gulp.task('styles', function () {
     );
 });
 
-    //  The scripts task lints, concats and uglifies all js scripts and
+    //
+    //  The scripts tasks lint, concats and uglifies all js scripts and
     //  combines them into one file.
-
+    //
+    
 gulp.task('scriptsMain', function() {
    return gulp.src(paths.scripts, paths.restricted)
             .pipe(jshint('.jshintrc'))
@@ -192,6 +216,14 @@ gulp.task('scripts', function () {
     );
 });
 
+    //
+    //  The set of image tasks optimize and resize the app's images. Some Notes:
+    //  while image-min is a powerful optimization tool, we also use image-resize
+    //  in conjunction. image-resize has the option to use either GraphicsMagick
+    //  or ImageMagick, the default is the foremost. ImageMagick can be forced by
+    //  setting an options flag (ImageMagick: true;).
+    //
+
 gulp.task('imagesMain', function() {
    return gulp.src(paths.img, paths.restricted)
             .pipe(imagemin({ optimizationLevel: 7, progressive: true, interlaced: true }))
@@ -215,6 +247,10 @@ gulp.task('imagesViewsThumbs', function() {
             .pipe(notify({ message: 'View Images have been Thumbnailed' }));
 });
 
+    //
+    //  The images function runs all image optimization tasks.
+    //
+
 gulp.task('images', function() {
    runSequence(
         ['imagesMain', 'imagesViews', 'imagesViewsThumbs']
@@ -227,7 +263,7 @@ gulp.task('clean', function(cb) {
        'dist/views/imgages', 'dist/'], cb);
 });
 
-gulp.task('watch', function() {
+gulp.task('changes', function() {
    //Watch for .html files
    gulp.watch('app/**/*.html', ['assetRef', 'html']);
    //Watch for .css files
@@ -253,9 +289,9 @@ gulp.task('default', ['clean'], function() {
 // This builds the distibution copy of the web application, and then serves it
 //  to a basic server, from the specified location.
 
-gulp.task('dist', ['default'], function () {
+gulp.task('dist', ['default', 'changes'], function () {
   browserSync({
-      port:5000,
+      port:5010,
     notify: false,
     logPrefix: 'PSK', 
     // Run as an https by uncommenting 'https: true'
@@ -266,6 +302,12 @@ gulp.task('dist', ['default'], function () {
       baseDir: ['.tmp', 'dist']
     }
   });
+});
+
+    //
+
+gulp.task('production', ['default'], function () {
+
 });
 
     //
