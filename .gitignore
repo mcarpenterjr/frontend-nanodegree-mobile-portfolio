@@ -6,3 +6,4 @@ bower_components
 junkfile.html
 orig
 *.stackdump
+!/dist/
