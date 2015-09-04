@@ -483,14 +483,34 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // The following code for sliding background pizzas was pulled from Ilya's demo found at:
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
 
-// Moves the sliding background pizzas based on scroll position
+
+    // Below is the code for adding and parralaxing the  Pizzas Of The Background, Or my Nightmares...
+    // It's a simple solution to be performant and run at 60FPS. 
+  var constantForScrollY = 0;
+  var windowHeight = document.documentElement.clientHeight;
+  var looking = true;
+
+function scrollingWoot() {
+  constantForScrollY = window.scrollY;
+  lookingForScroll();
+}
+
+function lookingForScroll() {
+  if (!looking) {
+    requestAnimationFrame(updatePositions);
+  }
+  looking = true;
+}
+
 function updatePositions() {
+  looking = false;
   frame++;
   window.performance.mark("mark_start_frame");
-
   var items = document.getElementsByClassName('mover');
+  var actualScrollY = constantForScrollY / windowHeight;
+  var phase;
   for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
+    phase = Math.sin(actualScrollY + (i % 5));
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
   }
 
@@ -505,14 +525,14 @@ function updatePositions() {
 }
 
 // runs updatePositions on scroll
-window.addEventListener('scroll', updatePositions);
+window.addEventListener('scroll', scrollingWoot);
 
 // Generates the sliding pizzas when the page loads. (Originally Loaded 200!? PIZZAS FTW!)
-// So much better now! Loads only the maximum amount of pizzas you can handle... 
+// So much better now! Loads only the maximum amount of pizzas you can handle.
 document.addEventListener('DOMContentLoaded', function() {
-  var cols = (Math.ceil(document.documentElement.clientWidth / 256) + 1);
   var s = 256;
-  var maxPizzas = (Math.ceil(document.documentElement.clientHeight / 256) * cols);
+  var cols = (Math.ceil(document.documentElement.clientWidth / s) + 1);
+  var maxPizzas = (Math.ceil(document.documentElement.clientHeight / s) * cols);
   for (var i = 0; i < maxPizzas; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';

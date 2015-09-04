@@ -253,7 +253,7 @@ gulp.task('default', ['clean'], function() {
 // This builds the distibution copy of the web application, and then serves it
 //  to a basic server, from the specified location.
 
-gulp.task('dist', ['default', 'watch'], function () {
+gulp.task('dist', ['default'], function () {
   browserSync({
       port:5000,
     notify: false,
@@ -270,43 +270,7 @@ gulp.task('dist', ['default', 'watch'], function () {
 
     //
 
-gulp.task('serve-build', function () {
-  browserSync({
-      port:5000,
-    notify: false,
-    logPrefix: 'PSK', 
-    // Run as an https by uncommenting 'https: true'
-    // Note: this uses an unsigned certificate which on first access
-    //       will present a certificate warning in the browser.
-    // https: true,
-    server: {
-      baseDir: ['app']
-    }
-  });
-  
-  gulp.watch('app/**/*').on('change', reload);
-});
-
-gulp.task('serve-build', function () {
-  browserSync({
-      port:5000,
-    notify: false,
-    logPrefix: 'PSK', 
-    // Run as an https by uncommenting 'https: true'
-    // Note: this uses an unsigned certificate which on first access
-    //       will present a certificate warning in the browser.
-    // https: true,
-    server: {
-      baseDir: ['app']
-    }
-  });
-  
-  gulp.watch('app/**/*').on('change', reload);
-});
-
-    //
-
-gulp.task('serve-build', function () {
+gulp.task('watch', function () {
   browserSync({
       port:5000,
     notify: false,
