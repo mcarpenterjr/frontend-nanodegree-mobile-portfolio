@@ -9,44 +9,44 @@ To get started, check out the repository, inspect the code,
 #### ![ScreenShot](https://raw.githubusercontent.com/xXSirenSxOpusXx/frontend-nanodegree-mobile-portfolio/master/PGSpdScrn2.png)
 
 #### You Will Need Node.js and Gulp Installed on your system
-   
 
-###  Getting up and running
 
-#####1. Check out the repository
-######    1. Clone or download the files into your working directory, and run...
+### Getting up and running
 
-```bash
-$> cd /path/to/your-project-folder
-$> npm install
-```
+##### 1. Check out the repository
+###### 1. Clone or download the files into your working directory, and run...
 
-        This installs the required dependencies.
+    ```bash
+    $> cd /path/to/your-project-folder
+    $> npm install
+    ```
 
-#####2.  Using Gulp with This Project...
-######      1.  Serving From The Development Directory
-            Running this gulp command serves the app directly from the app development folder
-            and watching for changes, allowing you to live preview any changes you have made
-            after saving them.
+This installs the required dependencies.
 
-```bash
-$> gulp watch
-```
+##### 2.  Using Gulp with This Project...
+###### 1.  Serving From The Development Directory
+Running this gulp command serves the app directly from the app development folder
+and watching for changes, allowing you to live preview any changes you have made
+after saving them.
 
-######      2. Building The Production App
-            Running this gulp command builds the production ready app to the `dist/` directory
-            you can then ftp this to your web server. This would be an ideal location to
-            add a task that ftp's the app right to its live destination.
+    ```bash
+    $> gulp watch
+    ```             
 
-```bash
-$> gulp production
-```
+###### 2. Building The Production App
+Running this gulp command builds the production ready app to the `dist/` directory
+you can then ftp this to your web server. This would be an ideal location to
+add a task that ftp's the app right to its live destination.
 
-######      3.  Previewing the Production App
-            Running this gulp command serves the app directly from `dist/` directory after
-            running all of the production build commands, this includes minification, uglification,
-            linting and optimizing images. 
+    ```bash
+    $> gulp production
+    ```
 
-```bash
-$> gulp dist
-```
+###### 3.  Previewing the Production App
+Running this gulp command serves the app directly from `dist/` directory after
+running all of the production build commands, this includes minification, uglification,
+linting and optimizing images. 
+
+    ```bash
+    $> gulp dist
+    ```
