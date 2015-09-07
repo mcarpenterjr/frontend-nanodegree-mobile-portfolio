@@ -20,10 +20,10 @@ things to build our performant Site.
 ######* Resize Optimize and Compress all Images
 ######* Automatically Update our HTML to Asyncly Load Required CSS and JS Files.
 ######* Automatically Copy over our Server Config files. (Some user renaming post Copy
-maybe reqiured)
+######  maybe reqiured)
 
 ##### 2. Hard Coded JS Changes
-    In the `app/views/js/main.js` file some hard coded changes needed to be made
+  In the `app/views/js/main.js` file some hard coded changes needed to be made
 to prevent forced syncronous layouts from occurring, and speed up some functions.
 
 ######*
@@ -35,7 +35,7 @@ to prevent forced syncronous layouts from occurring, and speed up some functions
 ##### 1. Check out the repository
 ###### 1. Clone or download the files into your working directory, and run...
 
-    ```bash
+    ```
     $> cd /path/to/your-project-folder
     $> npm install
     ```
@@ -48,7 +48,7 @@ Running this gulp command serves the app directly from the app development folde
 and watching for changes, allowing you to live preview any changes you have made
 after saving them.
 
-    ```bash
+    ```
     $> gulp watch
     ```             
 
@@ -57,7 +57,7 @@ Running this gulp command builds the production ready app to the `dist/` directo
 you can then ftp this to your web server. This would be an ideal location to
 add a task that ftp's the app right to its live destination.
 
-    ```bash
+    ```
     $> gulp production
     ```
 
@@ -66,6 +66,6 @@ Running this gulp command serves the app directly from `dist/` directory after
 running all of the production build commands, this includes minification, uglification,
 linting and optimizing images. 
 
-    ```bash
+    ```
     $> gulp dist
     ```
