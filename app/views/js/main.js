@@ -18,6 +18,7 @@ cameron *at* udacity *dot* com
 
 // As you may have realized, this website randomly generates pizzas.
 // Here are arrays of all possible pizza ingredients.
+"use strict";
 var pizzaIngredients = {};
 pizzaIngredients.meats = [
   "Pepperoni",
@@ -421,7 +422,16 @@ var resizePizzas = function(size) {
 
   changeSliderLabel(size);
 
-    // Iterates through pizza elements on the page and changes thier widths
+    //
+    // Stopped Accessing elements size and then modifying it later in the loop, 
+    // to prevent Forced Synchronous Layouts from occuring.  Dropped the determineDx
+    // function that didn't do anything of use or efficiency. We now change our widths
+    // pased on percentage, through the newWidth variable. newWidth takes an integer
+    // and turns it to a percent and through the for loop changes the width style
+    // property of the elements.
+    //
+    
+    var newWidth;
     function changePizzaSizes (size) {
       switch(size) {
         case "1":
@@ -438,8 +448,8 @@ var resizePizzas = function(size) {
         }
 
         var randomPizzas = document.getElementsByClassName("randomPizzaContainer");
-
-        for (var i = 0; i < randomPizzas.length; i++) {
+        var allDaPizzas = randomPizzas.length;
+        for (var i = 0; i < allDaPizzas; i++) {
             randomPizzas[i].style.width = newWidth + "%";
         }
     }
@@ -455,8 +465,9 @@ var resizePizzas = function(size) {
 window.performance.mark("mark_start_generating"); // collect timing data
 
 // This for-loop actually creates and appends all of the pizzas when the page loads
+
+var pizzasDiv = document.getElementById("randomPizzas");
 for (var i = 2; i < 100; i++) {
-  var pizzasDiv = document.getElementById("randomPizzas");
   pizzasDiv.appendChild(pizzaElementGenerator(i));
 }
 
@@ -483,18 +494,32 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // The following code for sliding background pizzas was pulled from Ilya's demo found at:
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
 
-
+    // 
     // Below is the code for adding and parralaxing the  Pizzas Of The Background, Or my Nightmares...
-    // It's a simple solution to be performant and run at 60FPS. 
+    // It's a simple solution to be performant and run at 60FPS. A couple things happen,
+    // We establish nothing is scolling through constantScrollY being globally set to 0,
+    // we figure out how tall our window will be, and we start looking for a scroll.
+    // 
+    
   var constantForScrollY = 0;
   var windowHeight = document.documentElement.clientHeight;
   var looking = true;
 
+    //
+    // This establishes that the mouse wheel is a turnin' and our pizzas should be
+    // a burnin'! Or that the window has scrolled and we should fire off our looking
+    // event and make note of how much we've scrolled.
+    //
+    
 function scrollingWoot() {
   constantForScrollY = window.scrollY;
   lookingForScroll();
 }
-
+    //
+    // A scroll has been spoted, what do we do? Request our animation frame and get
+    // ready to update positions.
+    //
+    
 function lookingForScroll() {
   if (!looking) {
     requestAnimationFrame(updatePositions);
@@ -502,6 +527,16 @@ function lookingForScroll() {
   looking = true;
 }
 
+    //
+    // oOnce we've seen our scroll has taken place and the browser knows we're going
+    // to ake some changes, updatePositions gets fired off by the lookingForScroll
+    // function. The updatePositions function flags looking to false, stopping the
+    // search for movement so we don't get all Forced Syncronous and start layingout.
+    // we get the amount our pizzas will shuffle by finding the amount the window has moved,
+    // by simply converting that into a peercentage based on screen size. We then pass that
+    // percentage based number to the item's style property.
+    //
+    
 function updatePositions() {
   looking = false;
   frame++;
@@ -509,7 +544,8 @@ function updatePositions() {
   var items = document.getElementsByClassName('mover');
   var actualScrollY = constantForScrollY / windowHeight;
   var phase;
-  for (var i = 0; i < items.length; i++) {
+  var allDaMovingPizzas = items.length;
+  for (var i = 0; i < allDaMovingPizzas; i++) {
     phase = Math.sin(actualScrollY + (i % 5));
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
   }
@@ -524,24 +560,34 @@ function updatePositions() {
   }
 }
 
-// runs updatePositions on scroll
+//
+// Starts our pizzas in motion...
+//
 window.addEventListener('scroll', scrollingWoot);
-
+//
 // Generates the sliding pizzas when the page loads. (Originally Loaded 200!? PIZZAS FTW!)
 // So much better now! Loads only the maximum amount of pizzas you can handle.
+// We reteive the actual screen height and width, not the viewport this prevents things
+// from getting messy. We figure how many cloumns we can fit on the page, then add one
+// for good mesure. We find how many rows we can fit on the screen and then do some math
+// to figure out how many piizzas we have space for. Pass that through maxPizzas to
+// our for loop, and we start looping through creating each pizza on the page.
+//
 document.addEventListener('DOMContentLoaded', function() {
   var s = 256;
   var cols = (Math.ceil(document.documentElement.clientWidth / s) + 1);
   var maxPizzas = (Math.ceil(document.documentElement.clientHeight / s) * cols);
+  var elem;
+  var movingPizzas = document.getElementById("movingPizzas1");
   for (var i = 0; i < maxPizzas; i++) {
-    var elem = document.createElement('img');
+    elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
     elem.style.height = "100px";
     elem.style.width = "73.333px";
     elem.basicLeft = (i % cols) * s;
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
-    document.getElementById("movingPizzas1").appendChild(elem);
+    movingPizzas.appendChild(elem);
   }
   updatePositions();
 });

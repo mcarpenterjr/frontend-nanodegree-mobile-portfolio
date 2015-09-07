@@ -66,7 +66,7 @@ gulp.task('htmlMain', function() {
             .pipe(htmlReplace({
                 'cssMainNow': {
                    src: 'css/style.min.css',
-                   tpl: '<link rel="stylesheet" href="%s">'
+                   tpl: '<script>var cb=function(){var e=document.createElement("link");e.rel="stylesheet";e.href="%s";var t=document.getElementsByTagName("head")[0];t.parentNode.insertBefore(e,t)};var raf=requestAnimationFrame||mozRequestAnimationFrame||webkitRequestAnimationFrame||msRequestAnimationFrame;if(raf)raf(cb);else window.addEventListener("load",cb)</script>'
                 },
                 'cssMainAsync': {
                    src: ['css/print.min.css', 'css/fonts.min.css']
