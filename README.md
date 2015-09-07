@@ -11,16 +11,15 @@
   This Project uses [gulp](http://www.http://gulpjs.com/) with gulp we do a number of
 things to build our performant Site.
 
-*######* Minify All CSS Files 
-*######* Minify All JS Files
-*######* Minify All HTML Files
-*######* Concat All CSS Files
-*######* Concat All JS Files
-*######* Lint All JS Files
-*######* Resize Optimize and Compress all Images
-*######* Automatically Update our HTML to Asyncly Load Required CSS and JS Files.
-*######* Automatically Copy over our Server Config files. (Some user renaming post Copy
-*######  maybe reqiured)
+*  Minify All CSS Files 
+*  Minify All JS Files
+*  Minify All HTML Files
+*  Concat All CSS Files
+*  Concat All JS Files
+*  Lint All JS Files
+*  Resize Optimize and Compress all Images
+*  Automatically Update our HTML to Asyncly Load Required CSS and JS Files.
+*  Automatically Copy over our Server Config files. (Some user renaming post Copy maybe reqiured)
 
 ##### 2. Hard Coded JS Changes
   In the `app/views/js/main.js` file some hard coded changes needed to be made
