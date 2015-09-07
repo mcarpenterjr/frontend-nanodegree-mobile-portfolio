@@ -34,11 +34,10 @@ to prevent forced syncronous layouts from occurring, and speed up some functions
 
 ##### 1. Check out the repository
 ###### 1. Clone or download the files into your working directory, and run...
-
-    ```
-    $> cd /path/to/your-project-folder
-    $> npm install
-    ```
+```bash
+$> cd /path/to/your-project-folder
+$> npm install
+```
 
 This installs the required dependencies.
 
@@ -47,25 +46,28 @@ This installs the required dependencies.
 Running this gulp command serves the app directly from the app development folder
 and watching for changes, allowing you to live preview any changes you have made
 after saving them.
-
-    ```
-    $> gulp watch
-    ```             
+```bash
+$> gulp watch
+```
 
 ###### 2. Building The Production App
 Running this gulp command builds the production ready app to the `dist/` directory
 you can then ftp this to your web server. This would be an ideal location to
 add a task that ftp's the app right to its live destination.
-
-    ```
-    $> gulp production
-    ```
+```bash
+$> gulp production
+```
 
 ###### 3.  Previewing the Production App
 Running this gulp command serves the app directly from `dist/` directory after
 running all of the production build commands, this includes minification, uglification,
 linting and optimizing images. 
+```bash
+$> gulp dist
+```
 
-    ```
-    $> gulp dist
-    ```
+## Contact
+#### Student
+* Homepage: mncarpenter.ninja
+* e-mail: mark@mncarpenter.ninja
+* Twitter: [@twitterhandle](https://twitter.com/xXSirenSxOpusXx "xXSirenSxOpusXx on twitter")
