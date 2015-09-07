@@ -26,7 +26,20 @@ things to build our performant Site.
   In the `app/views/js/main.js` file some hard coded changes needed to be made
 to prevent forced syncronous layouts from occurring, and speed up some functions.
 
-######*
+######* resizePizzas function
+  Stopped FSL from occurring by changing the method of changing the `style.width` attribute.
+This was acheived by switching over to a percent based size, and moving the API call
+to the elements outside the `for` loop that made the style updates. As well as removing 
+some functions that were neither efficient or of value.
+
+######* Paralaxing Pizzas 
+  `513 function scrollingWoot()` this function updates our `constantForScrollY` variable
+with the actual Y window scroll amount and fires off the `lookingForScroll` function.
+  `523 function lookingForScroll()` this short function requests an animation frame and
+sets off the updatePositions function, lookingForScrollY also holds a variable `looking` which
+prevents it from being run when the updatePositions function is running, this prevents
+FSL from occuring.
+  `540 function updatePositions` updatePositions 
 
 #### You Will Need Node.js and [gulp](http://www.http://gulpjs.com/) Installed on your system
 
