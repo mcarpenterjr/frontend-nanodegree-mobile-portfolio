@@ -1,15 +1,34 @@
 ## Website Performance Optimization portfolio project
 
-Your challenge, if you wish to accept it (and we sure hope you will), is to optimize this online portfolio for speed! In particular, optimize the critical rendering path and make this page render as quickly as possible by applying the techniques you've picked up in the [Critical Rendering Path course](https://www.udacity.com/course/ud884).
-
-To get started, check out the repository, inspect the code,
 
 #### [Live Optimized Version](http://pizza.mncarpenter.ninja)
 #### ![ScreenShot](https://raw.githubusercontent.com/xXSirenSxOpusXx/frontend-nanodegree-mobile-portfolio/master/PGSpdScrn.png)
 #### ![ScreenShot](https://raw.githubusercontent.com/xXSirenSxOpusXx/frontend-nanodegree-mobile-portfolio/master/PGSpdScrn2.png)
 
-#### You Will Need Node.js and Gulp Installed on your system
+### Performance Changes
 
+##### 1. Gulp Task Running
+  This Project uses [gulp](http://www.http://gulpjs.com/) with gulp we do a number of
+things to build our performant Site.
+
+######* Minify All CSS Files 
+######* Minify All JS Files
+######* Minify All HTML Files
+######* Concat All CSS Files
+######* Concat All JS Files
+######* Lint All JS Files
+######* Resize Optimize and Compress all Images
+######* Automatically Update our HTML to Asyncly Load Required CSS and JS Files.
+######* Automatically Copy over our Server Config files. (Some user renaming post Copy
+maybe reqiured)
+
+##### 2. Hard Coded JS Changes
+    In the `app/views/js/main.js` file some hard coded changes needed to be made
+to prevent forced syncronous layouts from occurring, and speed up some functions.
+
+######*
+
+#### You Will Need Node.js and [gulp](http://www.http://gulpjs.com/) Installed on your system
 
 ### Getting up and running
 
