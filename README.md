@@ -26,22 +26,28 @@ things to build our performant Site.
   In the `app/views/js/main.js` file some hard coded changes needed to be made
 to prevent forced syncronous layouts from occurring, and speed up some functions.
 
-######* resizePizzas function
+###### resizePizzas function
   Stopped FSL from occurring by changing the method of changing the `style.width` attribute.
 This was acheived by switching over to a percent based size, and moving the API call
 to the elements outside the `for` loop that made the style updates. As well as removing 
 some functions that were neither efficient or of value.
 
-######* Paralaxing Pizzas 
-  `513 function scrollingWoot()` this function updates our `constantForScrollY` variable
+###### Paralaxing Pizzas 
+*  `513 function scrollingWoot()` updates our `constantForScrollY` variable
 with the actual Y window scroll amount and fires off the `lookingForScroll` function.
-  `523 function lookingForScroll()` this short function requests an animation frame and
+*  `523 function lookingForScroll()` requests an animation frame and
 sets off the updatePositions function, lookingForScrollY also holds a variable `looking` which
 prevents it from being run when the updatePositions function is running, this prevents
 FSL from occuring.
-  `540 function updatePositions` updatePositions 
+*  `540 function updatePositions` has been rewritten to find the amount of scroll that occured
+on screen and converts that to a percentage based number, it get's tweaked to give the desired
+visual astetics, and then modifies the style.left attribute of the items in the `mover` class.
 
-#### You Will Need Node.js and [gulp](http://www.http://gulpjs.com/) Installed on your system
+*  The separation of all of these functions prevents Forced Syncronous Layout from
+happening as well as speeding up the process of paralaxing the pizzas.
+
+
+#### You Will Need [node.js](https://nodejs.org/en/) and [gulp](http://www.http://gulpjs.com/) Installed on your system
 
 ### Getting up and running
 
@@ -74,7 +80,9 @@ $> gulp production
 ###### 3.  Previewing the Production App
 Running this gulp command serves the app directly from `dist/` directory after
 running all of the production build commands, this includes minification, uglification,
-linting and optimizing images. 
+linting and optimizing images. When uploading the `dist/` directory to a server, renaming
+of the htaccess file is vital on an apache server to enable page compression and leveraging
+browser caching.
 ```bash
 $> gulp dist
 ```
